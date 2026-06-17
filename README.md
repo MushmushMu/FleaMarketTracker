@@ -1,5 +1,7 @@
 # Flea Market Tracker
 
+Live dashboard to track flea market inventory and revenue.
+
 A web dashboard to manage flea market inventory, accessory costs, earnings, and alerts.
 
 Data is stored locally in `data.sqlite` in the project folder.
