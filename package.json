@@ -1,0 +1,17 @@
+{
+  "name": "flea-market-profit-tracker",
+  "version": "0.1.0",
+  "description": "Web app to track flea market profit, budget, and inventory",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "init-db": "node src/server.js --init-only"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.9.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0"
+  }
+}

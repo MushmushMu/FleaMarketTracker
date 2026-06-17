@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flea Market Tracker</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Flea Market Tracker</h1>
+      <p>Track market budget, profit, inventory, and alerts by Project + SKU + accessory costs.</p>
+
+      <section class="panel dashboard-panel" id="projectSummary">
+        <div class="section-header">
+          <h2>Project Summary</h2>
+          <p class="section-subtitle">Overall project cost and current earnings.</p>
+        </div>
+        <div class="summary-grid" id="projectSummaryGrid">
+          <article class="summary-card">
+            <span class="summary-label">Total Project Cost</span>
+            <span class="summary-value" id="totalProjectCost">—</span>
+          </article>
+          <article class="summary-card">
+            <span class="summary-label">Current Earning</span>
+            <span class="summary-value summary-earning" id="currentEarning">—</span>
+          </article>
+          <article class="summary-card">
+            <span class="summary-label">Inventory Cost</span>
+            <span class="summary-value" id="summaryInventoryCost">—</span>
+          </article>
+          <article class="summary-card">
+            <span class="summary-label">Accessory Cost</span>
+            <span class="summary-value" id="summaryAccessoryCost">—</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel dashboard-panel" id="highLevelDashboard">
+        <div class="section-header">
+          <h2>High-Level Dashboard</h2>
+          <p class="section-subtitle">Quick view of product names and current stock on hand.</p>
+        </div>
+        <div class="table-toolbar">
+          <input type="search" id="overviewSearch" placeholder="Search products" />
+          <button type="button" id="refreshOverview">Refresh</button>
+        </div>
+        <p id="overviewCount" class="table-meta"></p>
+        <div class="overview-grid" id="overviewGrid"></div>
+      </section>
+
+      <section class="panel dashboard-panel" id="interactiveDashboard">
+        <div class="section-header">
+          <h2>Interactive Dashboard</h2>
+          <p class="section-subtitle">Add, edit, archive, or delete SKUs. Archived items are hidden here.</p>
+        </div>
+        <form id="addSkuForm" class="inline-form">
+          <input name="code" id="addSkuCode" placeholder="SKU code" required />
+          <input name="name" placeholder="Product name" required />
+          <button type="submit">Add SKU</button>
+        </form>
+        <div class="table-toolbar">
+          <input type="search" id="inventorySearch" placeholder="Search by SKU, name, or decision" />
+          <button type="button" id="refreshStock">Refresh</button>
+          <button type="button" id="exportExcel" class="btn-secondary">Export to Excel</button>
+        </div>
+        <div class="filter-bar">
+          <label class="filter-field">
+            <span>Sample Evaluation</span>
+            <select id="filterSampleEval">
+              <option value="all">All</option>
+              <option value="pass">Pass</option>
+              <option value="fail">Fail</option>
+              <option value="in_progress">In progress</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span>Decision</span>
+            <select id="filterDecision">
+              <option value="all">All</option>
+              <option value="scale">Scale</option>
+              <option value="kill">Kill</option>
+              <option value="sample">Sample</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span>Stock</span>
+            <select id="filterStock">
+              <option value="all">All</option>
+              <option value="low_stock">Low stock</option>
+              <option value="out_of_stock">Out of stock</option>
+              <option value="in_stock">In stock</option>
+              <option value="has_sales">Has sales</option>
+              <option value="no_sales">No sales</option>
+            </select>
+          </label>
+          <button type="button" id="clearInventoryFilters" class="btn-secondary">Clear filters</button>
+        </div>
+        <p id="inventoryCount" class="table-meta"></p>
+        <div class="table-wrap">
+          <table id="inventoryTable" class="data-table inventory-table">
+            <thead>
+              <tr>
+                <th>SKU ID</th>
+                <th>Product Name</th>
+                <th class="num">Unit Cost</th>
+                <th class="num">Arrival Quantity</th>
+                <th class="num">Purchased</th>
+                <th class="num">Total Price</th>
+                <th>Sample Evaluation</th>
+                <th>Decision</th>
+                <th class="num">Quantity Sold</th>
+                <th class="num">Current Stock</th>
+                <th class="num">Revenue</th>
+                <th class="num">Average Sold Price</th>
+                <th class="num">Margin</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryTableBody"></tbody>
+          </table>
+        </div>
+        <p id="inventoryTotal" class="table-meta dashboard-total"></p>
+      </section>
+
+      <section class="panel dashboard-panel" id="accessoryDashboard">
+        <div class="section-header">
+          <h2>Accessory Dashboard</h2>
+          <p class="section-subtitle">Track accessory name and category (exhibition or application).</p>
+        </div>
+        <form id="addAccessoryForm" class="inline-form">
+          <input name="description" placeholder="Name" required />
+          <select name="category" required>
+            <option value="">Select category</option>
+            <option value="exhibition">Exhibition</option>
+            <option value="application">Application</option>
+          </select>
+          <input name="amount" type="number" step="0.01" placeholder="Cost" required />
+          <button type="submit">Add Accessory</button>
+        </form>
+        <div class="table-toolbar">
+          <input type="search" id="accessorySearch" placeholder="Search accessories" />
+          <button type="button" id="refreshAccessories">Refresh</button>
+        </div>
+        <p id="accessoryCount" class="table-meta"></p>
+        <div class="table-wrap">
+          <table id="accessoryTable" class="data-table accessory-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th class="num">Cost</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="accessoryTableBody"></tbody>
+          </table>
+        </div>
+        <p id="accessoryTotal" class="table-meta accessory-total"></p>
+      </section>
+
+      <section class="panel">
+        <h2>Alerts</h2>
+        <button id="refreshAlerts">Refresh Alerts</button>
+        <pre id="alertsOutput"></pre>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>
